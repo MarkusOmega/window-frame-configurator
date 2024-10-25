@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import Camera from '/js/modules/camera.js';
+import Camera from '/window-frame-configurator/js/modules/camera.js';
+import Mesh from '/window-frame-configurator/js/modules/Mesh.js';
 
 export default class app {
     constructor(props) {
@@ -7,11 +8,11 @@ export default class app {
         this.$canvasContainer = props.$canvasContainer;
 
         this.setConfig();
-        this.setDebug();
-
+        this.setDebug();      
         this.setRenderer();
-
-        this.addObjects();
+  
+        this.setObjects()
+  
         this.setCamera();
     }
 
@@ -28,8 +29,7 @@ export default class app {
 
     setRenderer() {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color( 0xffffff );
-
+        this.scene.background = new THREE.Color( 0xE8E8E8 );
 
         this.renderer = new THREE.WebGLRenderer({
             antialias:true,
@@ -47,41 +47,49 @@ export default class app {
             $scene: this.scene
         });
 
-        this.renderer.render(this.scene, this.camera.camera);
+        this.renderer.render(this.scene, this.camera.instance);
     }
 
-    addObjects() {
-        const material = new THREE.MeshBasicMaterial( { color: 0xA49E77 } );
-        const materialDark = new THREE.MeshBasicMaterial( { color: 0x474430 } );
+    setObjects() {
+        this.horzBeamT =  new Mesh({
+            $matColor : 0xA49E77,
+            $meshWidth : 1000,
+            $meshHeight : 40,
+            $meshDepth : 40,
+        });
 
-        const horzBeamGeom = new THREE.BoxGeometry( 1000, 40, 40 );
-        const vertBeamGeom = new THREE.BoxGeometry( 40, 1000, 40 );
+        this.horzBeamB =  new Mesh({
+            $matColor : 0xA49E77,
+            $meshWidth : 1000,
+            $meshHeight : 40,
+            $meshDepth : 40,
+        });
 
-        // OBJECTS
-        this.horzBeamT = new THREE.Mesh( horzBeamGeom, material );
-        this.horzBeamB = new THREE.Mesh( horzBeamGeom, material );
+        this.vertBeamL =  new Mesh({
+            $matColor :  0x474430,
+            $meshWidth : 40,
+            $meshHeight : 1000,
+            $meshDepth : 40,
+        });
 
-        this.vertBeamL = new THREE.Mesh( vertBeamGeom, materialDark );
-        this.vertBeamR = new THREE.Mesh( vertBeamGeom, materialDark );
+        this.vertBeamR =  new Mesh({
+            $matColor :  0x474430,
+            $meshWidth : 40,
+            $meshHeight :1000,
+            $meshDepth : 40,
+        });
 
-        // Shadows
-        this.horzBeamT.receiveShadow = true;
-        this.horzBeamB.receiveShadow = true;
-        this.vertBeamL.receiveShadow = true;
-        this.vertBeamR.receiveShadow = true;
+        this.scene.add( this.horzBeamT.mesh );
+        this.scene.add( this.horzBeamB.mesh );
+        this.scene.add( this.vertBeamL.mesh );
+        this.scene.add( this.vertBeamR.mesh );
 
+        this.horzBeamT.mesh.position.y = 500 - 20;
+        this.horzBeamB.mesh.position.y = -500 + 20;
 
-        this.scene.add( this.horzBeamT );
-        this.scene.add( this.horzBeamB );
+        this.vertBeamL.mesh.position.x = 500 + 20;
+        this.vertBeamR.mesh.position.x = -500 - 20;
 
-        this.scene.add( this.vertBeamL );
-        this.scene.add( this.vertBeamR );
-
-        this.horzBeamT.position.y = 500 - 20;
-        this.horzBeamB.position.y = -500 + 20;
-
-        this.vertBeamL.position.x = 500 + 20;
-        this.vertBeamR.position.x = -500 - 20;
     }
 }
 

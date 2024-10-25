@@ -1,13 +1,13 @@
 import * as THREE from 'three';
-import App from '/js/modules/App.js';
-
+import App from '/window-frame-configurator/js/modules/App.js';
 
 window.App = new App({
 	$canvas: document.getElementById("frame-canvas"),
 	$canvasContainer: document.getElementById("canvas-container"),
-});
 
-// Materials
+	$widthInput : document.querySelector("#frame-width"),
+	$heightInput: document.querySelector("#frame-height"),
+});
 
 
 function changeObjectPosX(object, width, leftRight) {
@@ -18,9 +18,6 @@ function changeObjectPosY(object, height, topBot) {
 	object.position.y = (topBot == 't') ? +(height/2) -20 : -(height/2) +20;
 }
 
-
-//const horzBeamGeom = new THREE.BoxGeometry( 1000, 40, 40 );
-//const vertBeamGeom = new THREE.BoxGeometry( 40, 1000, 40 );
 function changeObjectWidth(object, geometry, width) {
 	geometry.dispose();
 
@@ -32,7 +29,6 @@ function changeObjectHeight(object, geometry, height) {
 
 	object.geometry = new THREE.BoxGeometry(40, height, 40);
 }
-
 
 const widthInput = document.querySelector("#frame-width");
 widthInput.addEventListener("change", (event) => {
@@ -53,8 +49,3 @@ heightInput.addEventListener("change", (event) => {
 	//changeObjectHeight(vertBeamL,vertBeamGeom,  event.target.value)
 	//changeObjectHeight(vertBeamR,vertBeamGeom,  event.target.value)
 });
-
-
-function animate() {
-	renderer.render( scene, camera );
-}

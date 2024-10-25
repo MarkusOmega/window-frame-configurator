@@ -10,10 +10,10 @@ export default class Camera {
     }
 
     setInstance() {
-        this.camera = new THREE.PerspectiveCamera( 75, this.$canvasContainer.offsetWidth / this.$canvasContainer.offsetHeight, 0.1, 10000 );
-        this.camera.position.z = 1200;
-        this.camera.position.x = 600;
+        this.instance = new THREE.PerspectiveCamera( 75, this.$canvasContainer.offsetWidth / this.$canvasContainer.offsetHeight, 0.1, 10000 );
+        this.instance.position.z = 1200;
+        this.instance.position.x = 600;
 
-        this.camera.lookAt( this.$scene.position );
+        this.instance.lookAt( this.$scene.position );
     }
 }
