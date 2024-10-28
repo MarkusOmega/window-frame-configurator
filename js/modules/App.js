@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import Camera from '/js/modules/camera.js';
 import Mesh from '/js/modules/Mesh.js';
 
@@ -14,6 +15,8 @@ export default class app {
         this.setObjects()
   
         this.setCamera();
+
+        this.setLights();
 
         this.animate();
     }
@@ -50,6 +53,11 @@ export default class app {
         });
 
         this.renderer.render(this.scene, this.camera.instance);
+    }
+
+    setLights() {
+        this.light = new THREE.AmbientLight( 0xffffff, 5); // soft white light
+        this.scene.add( this.light );
     }
 
     setObjects() {

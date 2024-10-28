@@ -16,7 +16,7 @@ export default class Mesh {
     }
 
     setMaterial($color) {
-       return new THREE.MeshBasicMaterial( { color: $color } );
+       return new THREE.MeshStandardMaterial( { color: $color } );
     }
 
     setGeometry($width, $height, $depth) {
