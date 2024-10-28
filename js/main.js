@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import App from '/window-frame-configurator/js/modules/App.js';
+import App from '/js/modules/App.js';
 
 window.App = new App({
 	$canvas: document.getElementById("frame-canvas"),
@@ -9,7 +9,6 @@ window.App = new App({
 	$heightInput: document.querySelector("#frame-height"),
 });
 
-
 function changeObjectPosX(object, width, leftRight) {
 	object.position.x = (leftRight == 'r') ? +(width/2) +20 : -(width/2) -20;
 }
@@ -18,34 +17,36 @@ function changeObjectPosY(object, height, topBot) {
 	object.position.y = (topBot == 't') ? +(height/2) -20 : -(height/2) +20;
 }
 
-function changeObjectWidth(object, geometry, width) {
-	geometry.dispose();
+function changeObjectWidth(object, width) {
+	object.geometry.dispose();
 
 	object.geometry = new THREE.BoxGeometry(width, 40, 40)
 }
 
-function changeObjectHeight(object, geometry, height) {
-	geometry.dispose();
+function changeObjectHeight(object, height) {
+	object.geometry.dispose();
 
 	object.geometry = new THREE.BoxGeometry(40, height, 40);
 }
 
-const widthInput = document.querySelector("#frame-width");
-widthInput.addEventListener("change", (event) => {
-  console.log('width change');
-  changeObjectPosX(window.App.vertBeamL, event.target.value, 'r')
-  changeObjectPosX(window.App.vertBeamR, event.target.value, 'l')
+const formSubmitButton = document.querySelector("#form-submit-button");
 
-  //changeObjectWidth(horzBeamT,horzBeamGeom,  event.target.value)
-  //changeObjectWidth(horzBeamB,horzBeamGeom,  event.target.value)
-});
+formSubmitButton.addEventListener("click", (event) => {
+	event.preventDefault()
+	const widthInput = document.querySelector("#frame-width");
+	const heightInput = document.querySelector("#frame-height");
 
-const heightInput = document.querySelector("#frame-height");
-heightInput.addEventListener("change", (event) => {
-	console.log('height change');
-	changeObjectPosY(window.App.horzBeamT, event.target.value, 't')
-	changeObjectPosY(window.App.horzBeamB, event.target.value, 'b')
+	changeObjectPosX(window.App.vertBeamL.mesh, widthInput.value, 'r')
+	changeObjectPosX(window.App.vertBeamR.mesh, widthInput.value, 'l')
 
-	//changeObjectHeight(vertBeamL,vertBeamGeom,  event.target.value)
-	//changeObjectHeight(vertBeamR,vertBeamGeom,  event.target.value)
+	changeObjectWidth(window.App.horzBeamT.mesh,  widthInput.value)
+	changeObjectWidth(window.App.horzBeamB.mesh,  widthInput.value)
+
+	changeObjectPosY(window.App.horzBeamT.mesh, heightInput.value, 't')
+	changeObjectPosY(window.App.horzBeamB.mesh, heightInput.value, 'b')
+
+	changeObjectHeight(window.App.vertBeamL.mesh, heightInput.value)
+	changeObjectHeight(window.App.vertBeamR.mesh, heightInput.value)
+
+	window.App.animate();
 });

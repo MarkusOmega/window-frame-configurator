@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import Camera from '/window-frame-configurator/js/modules/camera.js';
-import Mesh from '/window-frame-configurator/js/modules/Mesh.js';
+import Camera from '/js/modules/camera.js';
+import Mesh from '/js/modules/Mesh.js';
 
 export default class app {
     constructor(props) {
@@ -14,6 +14,8 @@ export default class app {
         this.setObjects()
   
         this.setCamera();
+
+        this.animate();
     }
 
     setConfig() {
@@ -89,7 +91,10 @@ export default class app {
 
         this.vertBeamL.mesh.position.x = 500 + 20;
         this.vertBeamR.mesh.position.x = -500 - 20;
+    }
 
+    animate() {
+        this.renderer.render( this.scene, this.camera.instance );
     }
 }
 
